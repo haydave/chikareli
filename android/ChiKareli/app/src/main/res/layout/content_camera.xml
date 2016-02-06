@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -14,36 +15,6 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.chikareli.CameraActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.1"
-        android:gravity="clip_horizontal|center"
-        android:orientation="horizontal"
-        android:weightSum="100">
+    <include layout="@layout/buttons"/>
 
-        <ImageButton
-            android:id="@+id/image_capture"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center|right"
-            android:layout_margin="25dp"
-            android:layout_weight="1"
-            android:background="@color/button_material_dark"
-            android:clickable="true"
-            android:src="@android:drawable/ic_menu_camera" />
-
-        <ImageButton
-            android:id="@+id/video_capture"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center_vertical|right"
-            android:layout_margin="25dp"
-            android:layout_weight="1"
-            android:background="@color/button_material_dark"
-            android:clickable="true"
-            android:src="@android:drawable/presence_video_online" />
-
-    </LinearLayout>
-
-</LinearLayout>
+</FrameLayout>

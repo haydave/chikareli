@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="buttons">
+        <item name="image_capture">
+            <id>image_capture</id>
+            <type>image</type>
+            <width>65dp</width>
+            <height>65dp</height>
+            <background>button_material_dark</background>
+        </item>
+        <item name="video_capture">
+            <id>video_capture</id>
+            <type>video</type>
+            <width>65dp</width>
+            <height>65dp</height>
+            <background>button_material_dark</background>
+        </item>
+        <item name="from_gallery">
+            <id>from_gallery</id>
+            <type>gallery</type>
+            <width>65dp</width>
+            <height>65dp</height>
+            <background>button_material_dark</background>
+        </item>
+    </array>
+</resources>

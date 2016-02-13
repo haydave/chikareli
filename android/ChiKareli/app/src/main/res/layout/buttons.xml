@@ -1,41 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:layout_weight="0.1"
     android:gravity="clip_horizontal|center"
     android:orientation="horizontal"
     android:weightSum="100">
 
-    <ImageButton
-        android:id="@+id/image_capture"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
-        android:layout_gravity="center|right"
-        android:layout_margin="25dp"
-        android:background="@color/button_material_dark"
+    <Button
+        android:id="@+id/material_camera"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:clickable="true"
-        android:src="@android:drawable/ic_menu_camera" />
+        android:background="@drawable/ic_photo_camera_blue_grey_200_48dp"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/material_gallery"
+        android:layout_toStartOf="@+id/material_gallery" />
 
-    <ImageButton
-        android:layout_width="65dp"
-        android:layout_height="65dp"
-        android:id="@+id/from_gallery"
-        android:layout_weight="0.25"
-        android:layout_margin="25dp"
-        android:layout_gravity="center"
-        android:background="@color/button_material_dark"
-        android:src="@android:drawable/ic_menu_gallery"
-        android:clickable="true" />
-
-    <ImageButton
-        android:id="@+id/video_capture"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
-        android:layout_gravity="center_vertical|right"
-        android:layout_margin="25dp"
-        android:background="@color/button_material_dark"
+    <Button
+        android:id="@+id/material_gallery"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:clickable="true"
-        android:src="@android:drawable/presence_video_online" />
+        android:background="@drawable/ic_perm_media_blue_grey_200_48dp"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/material_video"
+        android:layout_toStartOf="@+id/material_video"
+        android:layout_marginTop="112dp" />
 
-</LinearLayout>
+    <Button
+        android:id="@+id/material_video"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:clickable="true"
+        android:background="@drawable/ic_videocam_blue_grey_200_48dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+</RelativeLayout>

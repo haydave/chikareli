@@ -2,17 +2,20 @@ package com.chikareli;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.Button;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CameraActivity extends Activity {
     private static final int MEDIA_TYPE_IMAGE = 1;
@@ -20,9 +23,11 @@ public class CameraActivity extends Activity {
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
     private static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 200;
     private static final int GALLERY_ACTIVITY_REQUEST_CODE = 1;
-    private static final String TAG = "Chi Kareli -> CAMERA";
+    private static final String TAG = "CAMERA -> ";
+    private static GPSTracker gps;
     private Uri fileUri;
     private GalleryFile galleryClass;
+    private HTTPClient client;
 
     private static Uri getOutputMediaFileUri(int type) {
         return Uri.fromFile(getOutputMediaFile(type));
@@ -64,36 +69,50 @@ public class CameraActivity extends Activity {
         File mediaStorageDir = setUpDirs(type);
         String timeStamp = new SimpleDateFormat("dd_MM_yyyy_HH.mm").format(new Date());
         File mediaFile;
+        Map location = getLocation();
+        String name = mediaStorageDir.getPath() + File.separator + timeStamp + "__"
+                + location.get("lat") + "_" + location.get("long") + "__";
         if (type == MEDIA_TYPE_IMAGE) {
-            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-                    timeStamp + ".jpg");
+            mediaFile = new File(name + ".jpg");
         } else if (type == MEDIA_TYPE_VIDEO) {
-            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-                    timeStamp + ".mp4");
+            mediaFile = new File(name + ".mp4");
         } else {
             return null;
         }
         return mediaFile;
     }
 
+    private static Map getLocation() {
+        Map obj = new HashMap();
+        Location location = gps.getLocation();
+        if (location != null) {
+            obj.put("long", location.getLongitude());
+            obj.put("lat", location.getLatitude());
+        }
+        return obj;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
-        setUpEventListeners();
-        this.galleryClass = new GalleryFile(getApplicationContext());
+        gps = new GPSTracker(getApplicationContext());
+        setUpBtnEventListeners();
+        client = new HTTPClient();
+        client.stop();
+        this.galleryClass = new GalleryFile(getApplicationContext(), gps, client);
     }
 
-    private void setUpEventListeners() {
-        ImageButton img = (ImageButton) findViewById(R.id.image_capture);
-        setImgBtnListener(img, "img");
-        ImageButton video = (ImageButton) findViewById(R.id.video_capture);
-        setImgBtnListener(video, "video");
-        ImageButton gallery = (ImageButton) findViewById(R.id.from_gallery);
-        setImgBtnListener(gallery, "gallery");
+    private void setUpBtnEventListeners() {
+        Button img = (Button) findViewById(R.id.material_camera);
+        setBtnListener(img, "img");
+        Button video = (Button) findViewById(R.id.material_video);
+        setBtnListener(video, "video");
+        Button gallery = (Button) findViewById(R.id.material_gallery);
+        setBtnListener(gallery, "gallery");
     }
 
-    private void setImgBtnListener(ImageButton btn, final String id) {
+    private void setBtnListener(Button btn, final String id) {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,12 +151,16 @@ public class CameraActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (resultCode == RESULT_OK){
+        if (resultCode == RESULT_OK) {
+            Map location = getLocation();
+            if (location.isEmpty()) {
+                gps.showSettingsAlert(this);
+            }
             super.onActivityResult(requestCode, resultCode, intent);
-            if(requestCode == GALLERY_ACTIVITY_REQUEST_CODE) {
+            if (requestCode == GALLERY_ACTIVITY_REQUEST_CODE) {
                 this.galleryClass.workWithFile(intent);
             }
-        } else if (resultCode == RESULT_CANCELED){
+        } else if (resultCode == RESULT_CANCELED) {
             Log.e(TAG, "Back button pressed.");
         }
     }

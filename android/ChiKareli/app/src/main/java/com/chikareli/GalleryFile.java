@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Environment;
 import android.util.Log;
@@ -17,6 +18,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Admin on 06-Feb-16.
@@ -24,11 +27,15 @@ import java.util.Date;
 public class GalleryFile {
     private static final int MEDIA_TYPE_IMAGE = 1;
     private static final int MEDIA_TYPE_VIDEO = 2;
-    private static String TAG = "Chi Kareli -> Gallery:";
+    private static String TAG = "GALLERY -> ";
     private static Context context;
+    private static GPSTracker gps;
+    private static HTTPClient client;
 
-    public GalleryFile(Context context) {
+    public GalleryFile(Context context, GPSTracker gps, HTTPClient client) {
+        this.gps = gps;
         this.context = context;
+        this.client = client;
     }
 
     public static void workWithFile(Intent intent) {
@@ -43,12 +50,15 @@ public class GalleryFile {
 
     private static String getOutputMediaFilePath(int type) {
         File mediaStorageDir = setUpDirs(type);
+        Map location = getLocation();
         String timeStamp = new SimpleDateFormat("dd_MM_yyyy_HH.mm").format(new Date());
+        String path = mediaStorageDir.getPath() + File.separator + timeStamp + "__"
+                + location.get("lat") + "_" + location.get("long") + "__";
         String mediaFile;
         if (type == MEDIA_TYPE_IMAGE) {
-            mediaFile = mediaStorageDir.getPath() + File.separator + timeStamp + ".jpg";
+            mediaFile = path + ".jpg";
         } else if (type == MEDIA_TYPE_VIDEO) {
-            mediaFile = mediaStorageDir.getPath() + File.separator + timeStamp + ".mp4";
+            mediaFile = path + ".mp4";
         } else {
             return null;
         }
@@ -65,9 +75,7 @@ public class GalleryFile {
     public static String getRealPathFromUri(Uri uri) {
         String filePath = "";
         Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
-
         int columnIndex = cursor.getColumnIndex("_data");
-
         if (cursor.moveToFirst()) {
             filePath = cursor.getString(columnIndex);
         }
@@ -92,8 +100,8 @@ public class GalleryFile {
             Log.e(TAG, String.valueOf(e));
         } finally {
             try {
-                if (bis != null) bis.close();
-                if (bos != null) bos.close();
+                if (bis != null) {bis.close();};
+                if (bos != null) {bos.close();};
             } catch (IOException e) {
                 Log.e(TAG, String.valueOf(e));
             }
@@ -105,7 +113,7 @@ public class GalleryFile {
                 Environment.DIRECTORY_DCIM), "ChiKareli");
         if (!mediaStorageDir.exists()) {
             if (!mediaStorageDir.mkdirs()) {
-                Log.d(TAG, "failed to create directory");
+                Log.e(TAG, "failed to create directory");
                 return null;
             }
         }
@@ -113,7 +121,7 @@ public class GalleryFile {
             File imgDir = new File(String.valueOf(mediaStorageDir), "image");
             if (!imgDir.exists()) {
                 if (!imgDir.mkdirs()) {
-                    Log.d(TAG, "failed to create directory");
+                    Log.e(TAG, "failed to create directory");
                     return null;
                 }
             }
@@ -122,7 +130,7 @@ public class GalleryFile {
             File videoDir = new File(String.valueOf(mediaStorageDir), "video");
             if (!videoDir.exists()) {
                 if (!videoDir.mkdirs()) {
-                    Log.d(TAG, "failed to create directory");
+                    Log.e(TAG, "failed to create directory");
                     return null;
                 }
             }
@@ -130,5 +138,15 @@ public class GalleryFile {
         } else {
             return null;
         }
+    }
+
+    private static Map getLocation() {
+        Map obj = new HashMap();
+        Location location = gps.getLocation();
+        if (location != null) {
+            obj.put("long", location.getLongitude());
+            obj.put("lat", location.getLatitude());
+        }
+        return obj;
     }
 }

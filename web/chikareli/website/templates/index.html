@@ -1,14 +1,83 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>Minimal Django File Upload Example</title>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Minimal Django File Upload Example</title>
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 		{% load staticfiles %}
-        <link rel="stylesheet" href="{% static "libs/mdl/material.min.css" %}">
-    </head>
-    <body>
-    	<p>hi there</p>
-    <script src="{% static "libs/mdl/material.min.js" %}"></script>
-    </body>
+		<link rel="stylesheet" href="{% static "libs/mdl/material.min.css" %}">
+		<link rel="stylesheet" href="{% static "css/main.css" %}">
+	</head>
+	<body>
+	<div class="mdl-layout mdl-js-layout">
+		<header class="mdl-layout__header mdl-layout__header--scroll">
+			<div class="mdl-layout__header-row">
+				<!-- Title -->
+				<span class="mdl-layout-title">Title</span>
+				<!-- Add spacer, to align navigation to the right -->
+				<div class="mdl-layout-spacer"></div>
+				<!-- Navigation -->
+				<nav class="mdl-navigation">
+					<a class="mdl-navigation__link" href="">Link</a>
+					<a class="mdl-navigation__link" href="">Link</a>
+					<a class="mdl-navigation__link" href="">Link</a>
+					<a class="mdl-navigation__link" href="">Link</a>
+				</nav>
+			</div>
+		</header>
+		<div class="mdl-layout__drawer">
+			<span class="mdl-layout-title">Title</span>
+			<nav class="mdl-navigation">
+				<a class="mdl-navigation__link" href="">Link</a>
+				<a class="mdl-navigation__link" href="">Link</a>
+				<a class="mdl-navigation__link" href="">Link</a>
+				<a class="mdl-navigation__link" href="">Link</a>
+			</nav>
+		</div>
+		<main class="mdl-layout__content">
+			<div class="page-content">
+				<div class="mdl-grid">
+					<div class="mdl-cell mdl-cell--2-col">
+					</div>
+					<div class="mdl-cell mdl-cell--2-col">
+					</div>
+					<div class="mdl-cell mdl-cell--2-col">
+					</div>
+					<div class="mdl-cell mdl-cell--2-col">
+					</div>
+					<div class="mdl-cell mdl-cell--2-col">
+					</div>
+					<div class="mdl-cell mdl-cell--2-col">
+					</div>
+					<div class="mdl-cell mdl-cell--2-col">
+					</div>
+					<div class="mdl-cell mdl-cell--2-col">
+					</div>
+					<div class="mdl-cell mdl-cell--2-col">
+					</div>
+					<div class="mdl-cell mdl-cell--2-col">
+					</div>
+					<div class="mdl-cell mdl-cell--2-col">
+					</div>
+					<div class="mdl-cell mdl-cell--2-col">
+					</div>
+					<div class="mdl-cell mdl-cell--2-col">
+					</div>
+					<div class="mdl-cell mdl-cell--2-col">
+					</div>
+					<div class="mdl-cell mdl-cell--2-col">
+					</div>
+					<div class="mdl-cell mdl-cell--2-col">
+					</div>
+					<div class="mdl-cell mdl-cell--2-col">
+					</div>
+					<div class="mdl-cell mdl-cell--2-col">
+					</div>
+				</div>
+			</div>
+		</main>
+	</div>
+		<script src="{% static "libs/mdl/material.min.js" %}"></script>
+	</body>
 </html>

@@ -1,4 +1,12 @@
 .mdl-cell {
-  height: 256px;
-  background-color: #BDBDBD;
+	height: 256px;
+	background-color: #BDBDBD;
+}
+.mdl-card__actions {
+	background: rgba(0, 0, 0, 0.2);
+}
+.card-image__description {
+	color: #fff;
+	font-size: 14px;
+	font-weight: 500;
 }

@@ -15,9 +15,8 @@ def list(request):
         if form.is_valid():
             newdoc = Document(docfile=request.FILES['docfile'])
             newdoc.save()
-
             # Redirect to the document list after POST
-            return HttpResponseRedirect(reverse('website.views.list'))
+            return HttpResponseRedirect(reverse('website.views.index'))
     else:
         form = DocumentForm()  # A empty, unbound form
 
@@ -32,6 +31,8 @@ def list(request):
     )
 
 def index(request):
+    # Load documents for the list page
+    documents = Document.objects.all()
     return render_to_response(
-        'index.html'
+        'index.html', {'documents': documents}
     )

@@ -3,16 +3,18 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from django.views.decorators.csrf import csrf_exempt
 
 from website.models import Document
 from website.forms import DocumentForm
 
-
-def list(request):
-    # Handle file upload
-    if request.method == 'POST':
+@csrf_exempt
+def getMediaFile(request):
+    # Handle file upload 
+    if request.method == 'POST' and request.POST['csrfmiddlewaretoken'] == "doz1ppplKTizLzMd5kgOeMcpKbtop1K5" \
+        and request.COOKIES['csrftoken'] == "doz1ppplKTizLzMd5kgOeMcpKbtop1K5":
         form = DocumentForm(request.POST, request.FILES)
-        if request.FILES['docfile'].name.lower().endswith(('.png', '.jpg', '.jpeg')):
+        if request.FILES['docfile'].name.lower().endswith(('.mp4', '.jpg', '.jpeg')):
             print "lava"
         if form.is_valid():
             newdoc = Document(docfile=request.FILES['docfile'])

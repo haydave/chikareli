@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -26,8 +27,9 @@ public class CameraActivity extends Activity {
     private static final String TAG = "CAMERA -> ";
     private static GPSTracker gps;
     private Uri fileUri;
+    private File file;
     private GalleryFile galleryClass;
-    private HTTPClient client;
+    private HTTPClient client = new HTTPClient();
 
     private static Uri getOutputMediaFileUri(int type) {
         return Uri.fromFile(getOutputMediaFile(type));
@@ -98,7 +100,6 @@ public class CameraActivity extends Activity {
         setContentView(R.layout.activity_camera);
         gps = new GPSTracker(getApplicationContext());
         setUpBtnEventListeners();
-        client = new HTTPClient();
         client.stop();
         this.galleryClass = new GalleryFile(getApplicationContext(), gps, client);
     }
@@ -160,6 +161,13 @@ public class CameraActivity extends Activity {
             if (requestCode == GALLERY_ACTIVITY_REQUEST_CODE) {
                 this.galleryClass.workWithFile(intent);
             }
+            if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
+                file = getOutputMediaFile(MEDIA_TYPE_IMAGE);
+            } else if (requestCode == CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE) {
+                file = getOutputMediaFile(MEDIA_TYPE_VIDEO);
+            }
+            client.start(file);
+            client.stop();
         } else if (resultCode == RESULT_CANCELED) {
             Log.e(TAG, "Back button pressed.");
         }

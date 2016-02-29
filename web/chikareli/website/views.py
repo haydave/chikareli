@@ -1,8 +1,8 @@
 from django.shortcuts import render_to_response
-from website.models import Document
+from website.models import MediaFile
 
 def index(request):
-    documents = Document.objects.all()
+    documents = MediaFile.objects.all()
     return render_to_response(
         'index.html', {'documents': documents}
     )

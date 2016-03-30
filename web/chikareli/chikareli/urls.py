@@ -21,5 +21,4 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'', include('website.urls')),
-    url(r'^&', RedirectView.as_view(url='/website/list/', permanent=True))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -41,10 +41,10 @@
 						<!-- List of uploaded documents -->
 						{% if documents %}
 							{% for document in documents %}
-								<div class="mdl-cell mdl-cell--2-col mdl-card mdl-shadow--2dp" style="background: url('{{ document.docfile.url }}') center / cover;">
+								<div class="mdl-cell mdl-cell--2-col mdl-card mdl-shadow--2dp" style="background: url('{{ document.thumbnail.url }}') center / cover;">
 									<div class="mdl-card__title mdl-card--expand"></div>
 									<div class="mdl-card__actions">
-										<span class="card-image__description">{{ document.docfile.name }}</span>
+										<span class="card-image__description">{{ document.file.name }}</span>
 									</div>
 								</div>
 							{% endfor %}

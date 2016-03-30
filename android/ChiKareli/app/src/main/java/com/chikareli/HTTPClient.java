@@ -16,7 +16,7 @@ import cz.msebera.android.httpclient.Header;
  */
 public class HTTPClient {
 
-    private static final String BASE_URL = "https://your.domain.com/";
+    private static final String BASE_URL = "http://192.168.0.100:8000/";
     private static final String TAG = "HTTP client -> ";
     private AsyncHttpResponseHandler rHandler = new AsyncHttpResponseHandler() {
         @Override
@@ -32,18 +32,19 @@ public class HTTPClient {
 
     private static AsyncHttpClient client = new AsyncHttpClient();
 
-    public void start(File file) throws FileNotFoundException {
+    public void start(File file) {
         RequestParams params = new RequestParams();
         try {
-            params.put("ff", file);
-            post("", params, rHandler);
+            params.put("file", file);
+            params.put("token", "F!HzW4W1;SAXOOBtG|90%Byy610x4XS7=MYBwf%l94[h;gV-F{j3uB|TAg35'46");
+            post("mediaFile/", params, rHandler);
         } catch (FileNotFoundException e) {
             Log.e(TAG, String.valueOf(e));
         }
     }
 
     public void stop() {
-        Log.d(TAG, "----HTTP--- Started");
+        Log.d(TAG, "----HTTP--- Stopped");
     }
 
     private static void post(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
